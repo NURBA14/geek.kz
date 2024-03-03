@@ -148,7 +148,7 @@
             <a href="{{ url('/') }}" target="blank" class="brand-link">
                 <img src="{{ asset('assets/admin/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">На сайт</span>
+                <span class="brand-text font-weight-light">Go to the website</span>
             </a>
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -166,8 +166,32 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
-                                <p>Informational</p>
+                                <p>Home</p>
                             </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Posts
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('posts.index') }}" class="nav-link">
+                                        <i class="fas fa-th-list nav-icon"></i>
+                                        <p>Posts list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('posts.create') }}" class="nav-link">
+                                        <i class="fas fa-pencil-alt nav-icon"></i>
+                                        <p>New post</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
@@ -215,6 +239,9 @@
                                 </li>
                             </ul>
                         </li>
+
+
+
                     </ul>
                 </nav>
 
