@@ -19,7 +19,10 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
+    <div class="container">
+        @include('admin.layouts.success')
+    </div>
+
     <section class="content">
 
         <!-- Default box -->
