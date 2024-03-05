@@ -1,18 +1,15 @@
 @extends('admin.layouts.layout')
 
+@section('title')
+    Categories list
+@endsection
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Home page</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
+                    <h1>Categories list</h1>
                 </div>
             </div>
         </div>
@@ -20,6 +17,7 @@
 
     <div class="container">
         @include('admin.layouts.success')
+        @include('admin.layouts.error')
     </div>
 
     <section class="content">
@@ -41,6 +39,7 @@
                                             <th style="width: 30px">#</th>
                                             <th>Name</th>
                                             <th>slug</th>
+                                            <th>Posts</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -50,6 +49,7 @@
                                                 <td>{{ $category->id }}</td>
                                                 <td>{{ $category->title }}</td>
                                                 <td>{{ $category->slug }}</td>
+                                                <td>{{ count($category->posts) }}</td>
                                                 <td>
                                                     <a href="{{ route('categories.edit', ['category' => $category->id]) }}"
                                                         class="btn btn-info btn-sm float-left mr-1"><i
@@ -80,5 +80,4 @@
         </div>
         </div>
     </section>
-
 @endsection

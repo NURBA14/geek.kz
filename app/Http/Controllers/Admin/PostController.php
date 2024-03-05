@@ -14,7 +14,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with("category", "tags")->paginate(10);
+        $posts = Post::with("category", "tags")->orderBy("created_at", "DESC")->paginate(10);
         return view("admin.posts.index", compact("posts"));
     }
 
@@ -32,7 +32,7 @@ class PostController extends Controller
             "description" => "required",
             "content" => "required",
             "category_id" => "required|integer",
-            "thumbnail" => "nullable|image"
+            "thumbnail" => "required|image"
         ]);
         $data = $request->all();
         $data["thumbnail"] = Post::uploadImage($request);
@@ -42,7 +42,8 @@ class PostController extends Controller
             "description" => $data["description"],
             "content" => $data["content"],
             "category_id" => $data["category_id"],
-            "thumbnail" => $data["thumbnail"]
+            "thumbnail" => $data["thumbnail"],
+            "user_id" => auth()->user()->id
         ]);
         $post->tags()->sync($request->tags);
         $request->session()->flash("success", "The post is saved");
@@ -75,7 +76,8 @@ class PostController extends Controller
             "description" => $data["description"],
             "content" => $data["content"],
             "category_id" => $data["category_id"],
-            "thumbnail" => $data["thumbnail"] ?? $post->thumbnail
+            "thumbnail" => $data["thumbnail"] ?? $post->thumbnail,
+            "user_id" => auth()->user()->id
         ]);
         $post->tags()->sync($request->tags);
         $request->session()->flash("success", "The post has been changed");

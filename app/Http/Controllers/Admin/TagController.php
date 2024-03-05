@@ -11,7 +11,7 @@ class TagController extends Controller
 {
     public function index()
     {
-        $tags = Tag::paginate(10);
+        $tags = Tag::with("posts")->orderBy("created_at", "DESC")->paginate(10);
         return view("admin.tags.index", compact("tags"));
     }
 
@@ -55,7 +55,12 @@ class TagController extends Controller
 
     public function destroy($id)
     {
-        Tag::destroy($id);
+        $tag = Tag::find($id);
+        if ($tag->posts->count()) {
+            session()->flash("error", "Tag has posts");
+            return redirect()->route("tags.index");
+        }
+        $tag->delete();
         session()->flash("success", "The tag has been deleted");
         return redirect()->route("tags.index");
     }

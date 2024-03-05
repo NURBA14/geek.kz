@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::with("posts")->orderBy("created_at", "DESC")->paginate(10);
         return view("admin.categories.index", compact("categories"));
     }
 
@@ -55,7 +55,13 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        Category::destroy($id);
+        $category = Category::find($id);
+        if ($category->posts->count()) {
+            session()->flash("error", "Category has posts");
+            return redirect()->route("categories.index");
+        }
+        ;
+        $category->delete();
         session()->flash("success", "The category has been deleted");
         return redirect()->route("categories.index");
     }

@@ -1,18 +1,15 @@
 @extends('admin.layouts.layout')
 
+@section('title')
+    Tags list
+@endsection
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tags</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
+                    <h1>Tags list</h1>
                 </div>
             </div>
         </div>
@@ -20,6 +17,7 @@
 
     <div class="container">
         @include('admin.layouts.success')
+        @include('admin.layouts.error')
     </div>
 
     <section class="content">
@@ -41,6 +39,7 @@
                                             <th style="width: 30px">#</th>
                                             <th>Name</th>
                                             <th>slug</th>
+                                            <th>Posts</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -50,6 +49,7 @@
                                                 <td>{{ $tag->id }}</td>
                                                 <td>{{ $tag->title }}</td>
                                                 <td>{{ $tag->slug }}</td>
+                                                <td>{{ count($tag->posts) }}</td>
                                                 <td>
                                                     <a href="{{ route('tags.edit', ['tag' => $tag->id]) }}"
                                                         class="btn btn-info btn-sm float-left mr-1"><i

@@ -1,18 +1,15 @@
 @extends('admin.layouts.layout')
 
+@section('title')
+    Posts list
+@endsection
 
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Home page</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
+                    <h1>Posts list</h1>
                 </div>
             </div>
         </div>
@@ -44,8 +41,10 @@
                                             <th>Category</th>
                                             <th>Tags</th>
                                             <th style="width: 10px">Thumbnail</th>
+                                            <th style="width: 10px">Author</th>
                                             <th style="width: 100px">Date</th>
                                             <th style="width: 10px">Views</th>
+                                            <th style="width: 10px">Comments count</th>
                                             <th style="width: 100px">Actions</th>
                                         </tr>
                                     </thead>
@@ -57,10 +56,11 @@
                                                 <td>{{ $post->slug }}</td>
                                                 <td>{{ $post->category->title }}</td>
                                                 <td>{{ $post->tags->pluck('title')->join(', ') }}</td>
-                                                <td><a href="{{ asset('uploads/' . $post->thumbnail) }}"
-                                                        target="blank">img</a></td>
+                                                <td><a href="{{ asset($post->getImage()) }}" target="blank">img</a></td>
+                                                <td>{{ $post->user->name }}</td>
                                                 <td>{{ $post->created_at }}</td>
                                                 <td>{{ $post->views }}</td>
+                                                <td>{{ count($post->comments) }}</td>
                                                 <td>
                                                     <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
                                                         class="btn btn-info btn-sm float-left mr-1"><i
