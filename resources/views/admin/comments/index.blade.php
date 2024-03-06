@@ -26,7 +26,21 @@
             <div class="card-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Comments</h3>
+                        <h3 class="card-title">Comments table</h3>
+                        <div class="card-tools">
+                            <form action="{{ route('comments.search') }}" method="GET">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="s"
+                                        class="form-control float-right @error('s') is-invalid @enderror"
+                                        placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -68,7 +82,7 @@
                                     </tbody>
                                 </table>
                             @else
-                                <p>There are no categories</p>
+                                <p>There are no comments</p>
                         @endif
                     </div>
                 </div>

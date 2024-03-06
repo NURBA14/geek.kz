@@ -18,9 +18,15 @@ class LoginController extends Controller
     {
         $request->validate([
             "email" => "required|email",
-            "password" => "required"
+            "password" => "required",
+            "remember_me" => "nullable"
         ]);
-        if (Auth::attempt(["email" => $request->email, "password" => $request->password])) {
+        if(isset($request->remember_me)){
+            $remember_me = true;
+        }else{
+            $remember_me = false;
+        }
+        if (Auth::attempt(["email" => $request->email, "password" => $request->password], $remember_me)) {
             $request->session()->flash("success", "You are logged");
             if (Auth::user()->is_admin == 1) {
                 return redirect()->route("admin.index");

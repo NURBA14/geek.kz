@@ -68,6 +68,17 @@
 
                     <div class="row">
                         <div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember_me" name="remember_me">
+                                <label for="remember_me">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>
                     </div>

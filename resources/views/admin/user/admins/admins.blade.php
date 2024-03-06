@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 
 @section('title')
-    Users list
+    Admins list
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Users table</h1>
+                    <h1>Admins table</h1>
                 </div>
             </div>
         </div>
@@ -25,17 +25,19 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Users table</h3>
+                            <h3 class="card-title">Admins table</h3>
                             <div class="card-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control float-right"
-                                        placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                                <form action="{{ route('user.admins.search') }}" method="get">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
+                                            placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
 
@@ -48,29 +50,31 @@
                                         <th>email</th>
                                         <th>avatar</th>
                                         <th>Date</th>
-                                        <th>Comments</th>
+                                        <th>Posts count</th>
+                                        <th>Comments count</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($admins as $admin)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td><a href="{{ asset('uploads/' . $user->avatar) }}" target="blank">Avatar</a>
+                                            <td>{{ $admin->id }}</td>
+                                            <td>{{ $admin->name }}</td>
+                                            <td>{{ $admin->email }}</td>
+                                            <td><a href="{{ asset('uploads/' . $admin->avatar) }}" target="blank">Avatar</a>
                                             </td>
-                                            <td>{{ $user->created_at }}</td>
-                                            <td>{{ count($user->comments) }}</td>
-                                            <td>User</td>
+                                            <td>{{ $admin->created_at }}</td>
+                                            <td>{{ count($admin->posts) }}</td>
+                                            <td>{{ count($admin->comments) }}</td>
+                                            <td>Admin</td>
                                             <td>
-                                                <form action="{{ route('users.users.admin', ['id' => $user->id]) }}"
+                                                <form action="{{ route('users.admins.delete', ['id' => $admin->id]) }}"
                                                     method="POST">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-warning btn-sm float-left mr-1"><i
-                                                            class="fas fa-user-cog"
-                                                            onclick="return confirm('Add admin status')"></i></button>
+                                                    <button type="submit" class="btn btn-danger btn-sm float-left mr-1"
+                                                        onclick="return confirm('Delete admin status')"><i
+                                                            class="fas fa-user-alt-slash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -80,9 +84,8 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            {{ $users->links() }}
+                            {{ $admins->links() }}
                         </div>
-
                     </div>
 
                 </div>

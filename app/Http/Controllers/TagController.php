@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+    
     public function index()
     {
         $tags = Tag::with("posts")->where("id", ">", 0)->get();

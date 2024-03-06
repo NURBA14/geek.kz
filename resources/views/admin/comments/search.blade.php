@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 
 @section('title')
-    Tags list
+    Comments list
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tags list</h1>
+                    <h1>Search Comment</h1>
                 </div>
             </div>
         </div>
@@ -26,11 +26,15 @@
             <div class="card-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Tags table</h3>
+                        @if ($comments->count())
+                            <h3 class="card-title text-success">Comments found {{ $count }}</h3>
+                        @else
+                            <h3 class="card-title text-danger">Comments not found</h3>
+                        @endif
                         <div class="card-tools">
-                            <form action="{{ route('admin.tags.search') }}" method="GET">
+                            <form action="{{ route('comments.search') }}" method="GET">
                                 <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="s" class="form-control float-right"
+                                    <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
                                         placeholder="Search">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-default">
@@ -43,36 +47,36 @@
                     </div>
 
                     <div class="card-body">
-                        <a href="{{ route('tags.create') }}" class="btn btn-primary mb-3">Add tag</a>
-                        @if ($tags->count())
+                        @if ($comments->count())
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="width: 30px">#</th>
-                                            <th>Name</th>
-                                            <th>slug</th>
-                                            <th>Posts</th>
+                                            <th style="width: 30px">id</th>
+                                            <th>User name</th>
+                                            <th>text</th>
+                                            <th>Post</th>
+                                            <th>Created at</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($tags as $tag)
+                                        @foreach ($comments as $comment)
                                             <tr>
-                                                <td>{{ $tag->id }}</td>
-                                                <td>{{ $tag->title }}</td>
-                                                <td>{{ $tag->slug }}</td>
-                                                <td>{{ count($tag->posts) }}</td>
+                                                <td>{{ $comment->id }}</td>
+                                                <td>{{ $comment->user->name }}</td>
+                                                <td>{{ $comment->text }}</td>
                                                 <td>
-                                                    <a href="{{ route('tags.edit', ['tag' => $tag->id]) }}"
-                                                        class="btn btn-info btn-sm float-left mr-1"><i
-                                                            class="fas fa-pencil-alt"></i></a>
-                                                    <form action="{{ route('tags.destroy', ['tag' => $tag->id]) }}"
+                                                    <a href="{{ route('posts.single', ['slug' => $comment->post->slug]) }}"
+                                                        target="blank">{{ $comment->post->title }}</a>
+                                                </td>
+                                                <td>{{ $comment->created_at }}</td>
+                                                <td>
+                                                    <form action="{{ route('comments.delete', ['id' => $comment->id]) }}"
                                                         method="POST" class="float-left">
-                                                        @method('DELETE')
                                                         @csrf
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Confirm the deletion')"><i
+                                                            onclick="return confirm('Delete comment')"><i
                                                                 class="fas fa-trash-alt"></i></button>
                                                     </form>
                                                 </td>
@@ -81,16 +85,14 @@
                                     </tbody>
                                 </table>
                             @else
-                                <p>There are no tags</p>
+                                <p>There are no comments</p>
                         @endif
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $tags->links() }}
                 </div>
             </div>
         </div>
         </div>
     </section>
-
 @endsection

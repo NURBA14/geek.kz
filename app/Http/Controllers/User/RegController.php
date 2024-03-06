@@ -19,15 +19,21 @@ class RegController extends Controller
         $request->validate([
             "name" => "required",
             "email" => "required|email|unique:users",
-            "password" => "required|confirmed"
+            "password" => "required|confirmed",
+            "remember_me" => "nullable"
         ]);
+        if(isset($request->remember_me)){
+            $remember_me = true;
+        }else{
+            $remember_me = false;
+        }
         $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
             "password" => bcrypt($request->password)
         ]);
         $request->session()->flash("success", "You have registered");
-        Auth::login($user);
+        Auth::login($user, $remember_me);
         return redirect()->route("home");
     }
 }

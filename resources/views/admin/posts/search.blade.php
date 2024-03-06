@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Posts list</h1>
+                    <h1>Search Post</h1>
                 </div>
             </div>
         </div>
@@ -25,7 +25,11 @@
             <div class="card-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Posts list</h3>
+                        @if ($posts->count())
+                        <h3 class="card-title text-success">Posts found {{ $count }}</h3>
+                        @else
+                        <h3 class="card-title text-danger">Posts not found</h3>
+                        @endif
                         <div class="card-tools">
                             <form action="{{ route('admin.posts.search') }}" method="GET">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -97,7 +101,7 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $posts->links() }}
+                    {{ $posts->appends(['s' => $s])->links() }}
                 </div>
             </div>
         </div>

@@ -33,17 +33,25 @@ Route::group(["middleware" => "admin", "prefix" => "admin", "namespace" => "Admi
     Route::post("/profile", "UserController@store")->name("admin.store");
 
     Route::get("/admins", "UserController@admins")->name("users.admins.table");
+    Route::get("/admins/list/search", "SearchController@admins")->name("user.admins.search");
     Route::post("/admins/{id}", "UserController@delete")->name("users.admins.delete");
 
     Route::get("/users", "UserController@users")->name("users.users.table");
+    Route::get("/users/list/search", "SearchController@users")->name("user.users.search");
     Route::post("/users/{id}", "UserController@add_admin")->name("users.users.admin");
 
     Route::get("/comments", "CommentController@index")->name("comments.table");
+    Route::get("/comments/list/search", "SearchController@comments")->name("comments.search");
     Route::post("/comments/{id}/delete", "CommentController@delete")->name("comments.delete");
 
     Route::resource("/categories", "CategoryController");
+    Route::get("/categories/list/search", "SearchController@categories")->name("admin.categories.search");
+    
     Route::resource("/tags", "TagController");
+    Route::get("/tags/list/search", "SearchController@tags")->name("admin.tags.search");
+    
     Route::resource("/posts", "PostController");
+    Route::get("/posts/list/search", "SearchController@posts")->name("admin.posts.search");
 });
 
 

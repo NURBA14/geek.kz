@@ -45,7 +45,7 @@ class UserController extends Controller
     public function admins()
     {
         $admins = User::with("posts", "comments")->where("is_admin", "=", 1)->paginate(10);
-        return view("admin.user.admins", compact("admins"));
+        return view("admin.user.admins.admins", compact("admins"));
     }
 
     public function delete($id)
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function users()
     {
         $users = User::with("posts", "comments")->where("is_admin", "=", 0)->orderBy("created_at", "DESC")->paginate(10);
-        return view("admin.user.users", compact("users"));
+        return view("admin.user.users.users", compact("users"));
     }
 
     public function add_admin($id)

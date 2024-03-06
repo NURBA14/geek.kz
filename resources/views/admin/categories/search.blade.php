@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 
 @section('title')
-    Posts list
+    Categories list
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Posts list</h1>
+                    <h1>Search category</h1>
                 </div>
             </div>
         </div>
@@ -17,6 +17,7 @@
 
     <div class="container">
         @include('admin.layouts.success')
+        @include('admin.layouts.error')
     </div>
 
     <section class="content">
@@ -25,11 +26,16 @@
             <div class="card-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Posts list</h3>
+                        @if ($categories->count())
+                            <h3 class="card-title text-success">Categories found {{ $count }}</h3>
+                        @else
+                            <h3 class="card-title text-danger">Categories not found</h3>
+                        @endif
                         <div class="card-tools">
-                            <form action="{{ route('admin.posts.search') }}" method="GET">
+                            <form action="{{ route('admin.categories.search') }}" method="GET">
                                 <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
+                                    <input type="text" name="s"
+                                        class="form-control float-right @error('s') is-invalid @enderror"
                                         placeholder="Search">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-default">
@@ -42,43 +48,32 @@
                     </div>
 
                     <div class="card-body">
-                        <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Add post</a>
-                        @if ($posts->count())
+                        <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Add category</a>
+                        @if ($categories->count())
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th style="width: 30px">#</th>
-                                            <th>Title</th>
-                                            <th>Slug</th>
-                                            <th>Category</th>
-                                            <th>Tags</th>
-                                            <th style="width: 10px">Thumbnail</th>
-                                            <th style="width: 10px">Author</th>
-                                            <th style="width: 100px">Date</th>
-                                            <th style="width: 10px">Views</th>
-                                            <th style="width: 10px">Comments count</th>
-                                            <th style="width: 100px">Actions</th>
+                                            <th>Name</th>
+                                            <th>slug</th>
+                                            <th>Posts</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($posts as $post)
+                                        @foreach ($categories as $category)
                                             <tr>
-                                                <td>{{ $post->id }}</td>
-                                                <td>{{ $post->title }}</td>
-                                                <td>{{ $post->slug }}</td>
-                                                <td>{{ $post->category->title }}</td>
-                                                <td>{{ $post->tags->pluck('title')->join(', ') }}</td>
-                                                <td><a href="{{ asset($post->getImage()) }}" target="blank">img</a></td>
-                                                <td>{{ $post->user->name }}</td>
-                                                <td>{{ $post->created_at }}</td>
-                                                <td>{{ $post->views }}</td>
-                                                <td>{{ count($post->comments) }}</td>
+                                                <td>{{ $category->id }}</td>
+                                                <td>{{ $category->title }}</td>
+                                                <td>{{ $category->slug }}</td>
+                                                <td>{{ count($category->posts) }}</td>
                                                 <td>
-                                                    <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
+                                                    <a href="{{ route('categories.edit', ['category' => $category->id]) }}"
                                                         class="btn btn-info btn-sm float-left mr-1"><i
                                                             class="fas fa-pencil-alt"></i></a>
-                                                    <form action="{{ route('posts.destroy', ['post' => $post->id]) }}"
+                                                    <form
+                                                        action="{{ route('categories.destroy', ['category' => $category->id]) }}"
                                                         method="POST" class="float-left">
                                                         @method('DELETE')
                                                         @csrf
@@ -92,16 +87,15 @@
                                     </tbody>
                                 </table>
                             @else
-                                <p>There are no posts</p>
+                                <p>There are no categories</p>
                         @endif
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $posts->links() }}
+                    {{ $categories->appends(['s' => $s])->links() }}
                 </div>
             </div>
         </div>
         </div>
     </section>
-
 @endsection

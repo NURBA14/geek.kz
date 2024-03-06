@@ -227,10 +227,10 @@
                                 <table class="table m-0">
                                     <thead>
                                         <tr>
-                                            <th style="width: 30px">#</th>
+                                            <th style="width: 5px">#</th>
                                             <th>Title</th>
                                             <th style="width: 5px">Views</th>
-                                            <th style="width: 5px">Comms</th>
+                                            <th style="width: 5px">Coms</th>
                                         </tr>
                                     </thead>
                                     <tbody>
