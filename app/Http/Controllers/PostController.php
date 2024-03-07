@@ -10,16 +10,17 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with("category")->orderBy("created_at", "DESC")->paginate(4);
+        $posts = Post::with("category")->orderBy("created_at", "DESC")->paginate(5);
         return view("posts.index", compact("posts"));
     }
 
     public function show($slug)
     {
         $post = Post::with("category", "tags", "user", "comments")->where("slug", "=", $slug)->firstOrFail();
+        $comments = Comment::with("user")->where("post_id", "=", $post->id)->orderBy("created_at", "DESC")->get();
         $post->views += 1;
         $post->update();
-        return view("posts.show", compact("post"));
+        return view("posts.show", compact("post", "comments"));
     }
 
 

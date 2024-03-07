@@ -28,13 +28,8 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                @if (auth()->user()->avatar)
-                                    <img class="avatar-img" src="{{ asset('uploads/' . auth()->user()->avatar) }}"
-                                        style="border-radius: 50%" width="150px" height="150px" alt="User profile picture">
-                                @else
-                                    <img class="avatar-img" src="{{ asset('uploads\admin\default\default.jpg') }}"
-                                        style="border-radius: 50%" width="150px" height="150px" alt="User profile picture">
-                                @endif
+                                <img class="avatar-img" src="{{ asset(auth()->user()->getAva()) }}"
+                                    style="border-radius: 50%" width="150px" height="150px" alt="User profile picture">
                             </div>
                             <h3 class="profile-username text-center">{{ auth()->user()->name }}</h3>
                             <p class="text-muted text-center">{{ auth()->user()->work }}</p>

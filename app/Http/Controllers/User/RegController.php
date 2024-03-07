@@ -34,6 +34,6 @@ class RegController extends Controller
         ]);
         $request->session()->flash("success", "You have registered");
         Auth::login($user, $remember_me);
-        return redirect()->route("home");
+        return redirect()->route("reg.mail");
     }
 }

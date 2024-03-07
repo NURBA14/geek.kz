@@ -33,7 +33,8 @@
                             <div class="card-tools">
                                 <form action="{{ route('user.users.search') }}" method="GET">
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
+                                        <input type="text" name="s"
+                                            class="form-control float-right @error('s') is-invalid @enderror"
                                             placeholder="Search">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-default">
@@ -45,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body table-responsive p-0" style="height: 500px;">
+                        <div class="card-body table-responsive p-0" style="height: 700px;">
                             <table class="table table-head-fixed text-nowrap">
                                 <thead>
                                     <tr>
@@ -64,9 +65,11 @@
                                         @foreach ($users as $user)
                                             <tr>
                                                 <td>{{ $user->id }}</td>
-                                                <td>{{ $user->name }}</td>
+                                                <td><a
+                                                        href="{{ route('users.users.bridge', ['id' => $user->id]) }}">{{ $user->name }}</a>
+                                                </td>
                                                 <td>{{ $user->email }}</td>
-                                                <td><a href="{{ asset('uploads/' . $user->avatar) }}"
+                                                <td><a href="{{ asset($user->getAva()) }}"
                                                         target="blank">Avatar</a>
                                                 </td>
                                                 <td>{{ $user->created_at }}</td>
@@ -81,6 +84,25 @@
                                                                 class="fas fa-user-cog"
                                                                 onclick="return confirm('Add admin status')"></i></button>
                                                     </form>
+                                                    @if ($user->active == 1)
+                                                        <form action="{{ route('user.users.ban', ['id' => $user->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-danger btn-sm float-left mr-1"
+                                                                onclick="return confirm('Banned this user')"><i
+                                                                    class="fas fa-user-times"></i></button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('user.users.unban', ['id' => $user->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-success btn-sm float-left mr-1"
+                                                                onclick="return confirm('Unbanned this user')"><i
+                                                                    class="fas fa-user-plus"></i></button>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -89,7 +111,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            {{ $users->appends(['s' => $s])->links() }}
+                            {{ $users->onEachSide(2)->appends(['s' => $s])->links() }}
                         </div>
 
                     </div>

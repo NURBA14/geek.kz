@@ -73,13 +73,8 @@
             <h4 class="small-title">Author</h4>
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    @if ($post->user->avatar)
-                        <img src="{{ asset('uploads/' . $post->user->avatar) }}" alt=""
-                            class="img-fluid rounded-circle">
-                    @else
-                        <img src="{{ asset('uploads\admin\default\default.jpg') }}" class="img-fluid rounded-circle""
-                            alt="User Image">
-                    @endif
+                    <img src="{{ asset($post->user->getAva()) }}" alt=""
+                        class="img-fluid rounded-circle">
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
                     <h4><a href="#">{{ $post->user->name }}</a></h4>
@@ -92,23 +87,17 @@
 
         <hr class="invis1">
 
-        @if ($post->comments->count())
+        @if ($comments->count())
             <div class="custombox clearfix">
-                <h4 class="small-title">{{ count($post->comments) }} comments</h4>
+                <h4 class="small-title">{{ count($comments) }} comments</h4>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="comments-list">
 
-                            @foreach ($post->comments as $comment)
+                            @foreach ($comments as $comment)
                                 <div class="media">
                                     <a class="media-left" href="#">
-                                        @if ($comment->user->avatar)
-                                            <img src="{{ asset('uploads/' . $comment->user->avatar) }}" class="rounded"
-                                                alt="User Image">
-                                        @else
-                                            <img src="{{ asset('uploads\admin\default\default.jpg') }}"
-                                                class="rounded-circle" alt="User Image">
-                                        @endif
+                                        <img src="{{ asset($comment->user->getAva()) }}" class="rounded" alt="User Image">
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading user_name">{{ $comment->user->name }}

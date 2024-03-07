@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $posts->appends(['s' => $s])->links() }}
+                    {{ $posts->onEachSide(2)->appends(['s' => $s])->links() }}
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ class CommentController extends Controller
     {
         Comment::destroy($id);
         session()->flash("success", "Comment is deleted");
-        return redirect()->route("comments.table");
+        return redirect()->back();
     }
 
 }

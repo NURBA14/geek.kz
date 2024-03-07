@@ -14,13 +14,8 @@
     <div class="page-wrapper">
         <div class="row">
             <div class="col-lg-4">
-                @if (auth()->user()->avatar)
-                    <img class="avatar-img" src="{{ asset('uploads/' . auth()->user()->avatar) }}" style="border-radius: 50%"
+                    <img class="avatar-img" src="{{ asset(auth()->user()->getAva()) }}" style="border-radius: 50%"
                         width="150px" height="150px" alt="User profile picture">
-                @else
-                    <img class="avatar-img" src="{{ asset('uploads\user\default\default.jpg') }}" style="border-radius: 50%"
-                        width="150px" height="150px" alt="User profile picture">
-                @endif
                 <br><br>
                 <h1>{{ auth()->user()->name }}</h1>
                 <a href="{{ route('user.profile') }}"><button

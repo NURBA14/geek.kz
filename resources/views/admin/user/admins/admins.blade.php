@@ -29,7 +29,8 @@
                             <div class="card-tools">
                                 <form action="{{ route('user.admins.search') }}" method="get">
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
+                                        <input type="text" name="s"
+                                            class="form-control float-right @error('s') is-invalid @enderror"
                                             placeholder="Search">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-default">
@@ -41,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body table-responsive p-0" style="height: 500px;">
+                        <div class="card-body table-responsive p-0" style="height: 700px;">
                             <table class="table table-head-fixed text-nowrap">
                                 <thead>
                                     <tr>
@@ -53,6 +54,7 @@
                                         <th>Posts count</th>
                                         <th>Comments count</th>
                                         <th>Status</th>
+                                        <th>Banned</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -60,22 +62,47 @@
                                     @foreach ($admins as $admin)
                                         <tr>
                                             <td>{{ $admin->id }}</td>
-                                            <td>{{ $admin->name }}</td>
+                                            <td><a
+                                                    href="{{ route('users.users.bridge', ['id' => $admin->id]) }}">{{ $admin->name }}</a>
+                                            </td>
                                             <td>{{ $admin->email }}</td>
-                                            <td><a href="{{ asset('uploads/' . $admin->avatar) }}" target="blank">Avatar</a>
+                                            <td><a href="{{ asset($admin->getAva()) }}" target="blank">Avatar</a>
                                             </td>
                                             <td>{{ $admin->created_at }}</td>
                                             <td>{{ count($admin->posts) }}</td>
                                             <td>{{ count($admin->comments) }}</td>
-                                            <td>Admin</td>
+                                            <td class="text-danger">Admin</td>
+                                            @if ($admin->active == 1)
+                                                <td class="text-success">False</td>
+                                            @else
+                                                <td class="text-danger">True</td>
+                                            @endif
                                             <td>
                                                 <form action="{{ route('users.admins.delete', ['id' => $admin->id]) }}"
                                                     method="POST">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm float-left mr-1"
+                                                    <button type="submit" class="btn btn-warning btn-sm float-left mr-1"
                                                         onclick="return confirm('Delete admin status')"><i
                                                             class="fas fa-user-alt-slash"></i></button>
                                                 </form>
+                                                @if ($admin->active == 1)
+                                                    <form action="{{ route('user.users.ban', ['id' => $admin->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger btn-sm float-left mr-1"
+                                                            onclick="return confirm('Banned this user')"><i
+                                                                class="fas fa-user-times"></i></button>
+                                                    </form>
+                                                @else
+                                                    <form action="{{ route('user.users.unban', ['id' => $admin->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="btn btn-success btn-sm float-left mr-1"
+                                                            onclick="return confirm('Unbanned this user')"><i
+                                                                class="fas fa-user-plus"></i></button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -84,7 +111,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            {{ $admins->links() }}
+                            {{ $admins->onEachSide(2)->links() }}
                         </div>
                     </div>
 

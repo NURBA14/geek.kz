@@ -15,10 +15,11 @@ class MainController extends Controller
 {
     public function index()
     {
+
         $posts = Post::all();
         $latest_posts = Post::with("category", "user", "tags", "comments")->orderBy("created_at", "DESC")->limit(5)->get();
-        $popularity_posts = Post::with("comments")->orderBy("views", "DESC")->limit(5)->get();
-        $categories = Category::all();
+        $popularity_posts = Post::with("comments")->withCount("comments")->orderBy("views", "DESC")->limit(7)->get();
+        $categories = Category::all()->count();
         $latest_users = User::where("is_admin", "=", 0)->orderBy("created_at", "DESC")->limit(4)->get();
         $latest_admins = User::where("is_admin", "=", 1)->orderBy("created_at", "DESC")->limit(4)->get();
         $users = User::where("is_admin", "=", 0)->count();
@@ -29,7 +30,11 @@ class MainController extends Controller
         foreach ($posts as $post) {
             $views += $post->views;
         }
-        $activity = ((($comments + $views) / count($posts)) / $users) * 100;
+        if ($posts->count() and $comments and $views and $users) {
+            $activity = ((($comments + $views) / count($posts)) / $users) * 100;
+        } else {
+            $activity = 0;
+        }
         return view("admin.index", compact("posts", "categories", "users", "views", "tags", "comments", "admins", "activity", "latest_posts", "latest_users", "latest_admins", "popularity_posts"));
     }
 }

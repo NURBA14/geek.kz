@@ -8,9 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
+    use HasFactory;
     use Notifiable;
 
     /**
@@ -27,7 +29,8 @@ class User extends Authenticatable
         "location",
         "skills",
         "des",
-        "is_admin"
+        "is_admin",
+        "active"
     ];
 
     /**
@@ -96,9 +99,9 @@ class User extends Authenticatable
 
     public function getAva()
     {
-        if($this->avatar){
+        if ($this->avatar) {
             return "uploads/{$this->avatar}";
-        }else{
+        } else {
             return "uploads/user/default/default.jpg";
         }
     }

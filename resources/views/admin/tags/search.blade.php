@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $tags->appends(['s' => $s])->links() }}
+                    {{ $tags->onEachSide(2)->appends(['s' => $s])->links() }}
                 </div>
             </div>
         </div>

@@ -34,7 +34,8 @@
                         <div class="card-tools">
                             <form action="{{ route('comments.search') }}" method="GET">
                                 <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="s" class="form-control float-right @error('s') is-invalid @enderror"
+                                    <input type="text" name="s"
+                                        class="form-control float-right @error('s') is-invalid @enderror"
                                         placeholder="Search">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-default">

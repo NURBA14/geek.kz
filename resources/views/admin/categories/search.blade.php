@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $categories->appends(['s' => $s])->links() }}
+                    {{ $categories->onEachSide(2)->appends(['s' => $s])->links() }}
                 </div>
             </div>
         </div>

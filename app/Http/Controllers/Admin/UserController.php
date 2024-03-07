@@ -55,12 +55,12 @@ class UserController extends Controller
             "is_admin" => 0
         ]);
         session()->flash("success", "{$user->name} is user");
-        return redirect()->route("users.users.table");
+        return redirect()->back();
     }
 
     public function users()
     {
-        $users = User::with("posts", "comments")->where("is_admin", "=", 0)->orderBy("created_at", "DESC")->paginate(10);
+        $users = User::with("posts", "comments")->where("is_admin", "=", 0)->where("active", "=", 1)->orderBy("created_at", "DESC")->paginate(10);
         return view("admin.user.users.users", compact("users"));
     }
 
@@ -71,6 +71,39 @@ class UserController extends Controller
             "is_admin" => 1
         ]);
         session()->flash("success", "{$user->name} is admin");
-        return redirect()->route("users.admins.table");
+        return redirect()->back();
+    }
+
+    public function bridge($id)
+    {
+        $user = User::with("comments")->withCount("comments")->find($id);
+        return view("admin.user.users.bridge", compact("user"));
+    }
+
+
+    public function ban($id)
+    {
+        $user = User::find($id);
+        $user->update([
+            "active" => 0
+        ]);
+        session()->flash("success", "{$user->name} is banned");
+        return redirect()->back();
+    }
+
+    public function unbanned($id)
+    {
+        $user = User::find($id);
+        $user->update([
+            "active" => 1
+        ]);
+        session()->flash("success", "{$user->name} is unbanned");
+        return redirect()->back();
+    }
+
+    public function banned_list()
+    {
+        $users = User::with("comments")->where("active", "=", 0)->paginate(10);
+        return view("admin.user.banned.users", compact("users"));
     }
 }

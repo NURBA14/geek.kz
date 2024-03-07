@@ -83,4 +83,15 @@ class SearchController extends Controller
         $count = count($tags);
         return view("admin.tags.search", compact("tags", "s", 'count'));
     }
+
+    public function banned(Request $request)
+    {
+        $request->validate([
+            "s" => "required"
+        ]);
+        $s = $request->s;
+        $users = User::with("comments", "posts")->where("is_admin", "=", "0")->where("Name", "LIKE", "%{$s}%")->where("active", "=", 0)->paginate(10);
+        $count = count($users);
+        return view("admin.user.banned.search", compact("users", "count", "s"));
+    }
 }

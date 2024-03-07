@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="card-footer clearfix">
-                    {{ $comments->links() }}
+                    {{ $comments->onEachSide(2)->links() }}
                 </div>
             </div>
         </div>

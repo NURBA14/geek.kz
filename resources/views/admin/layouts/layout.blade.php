@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/adminlte.min.css.map') }}">
-    <link rel="icon" href="{{ asset("geek.ico")}}">
+    <link rel="icon" href="{{ asset('geek.ico') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -86,6 +86,12 @@
                                     <a href="{{ route('users.users.table') }}" class="nav-link">
                                         <i class="fas fa-user-friends nav-icon"></i>
                                         <p>Users list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('users.banned.list') }}" class="nav-link">
+                                        <i class="fas fa-user-friends nav-icon"></i>
+                                        <p>Banned users list</p>
                                     </a>
                                 </li>
                             </ul>
